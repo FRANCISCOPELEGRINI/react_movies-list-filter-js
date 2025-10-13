@@ -4,12 +4,12 @@ import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
 export const App = () => {
-  const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
-  let inpute = '';
+  const visibleMovies = moviesFromServer;
+  const [query, setquery] = useState('');
 
-  function ordenar(movies, setar, inputa) {
-    setar(movies.filter(r => r.title.includes(inputa)));
-  }
+  const filteredMovies = visibleMovies.filter(r =>
+    r.title.toLowerCase().includes(query.toLowerCase()),
+  );
 
   return (
     <div className="page">
@@ -25,15 +25,16 @@ export const App = () => {
                 id="search-query"
                 className="input"
                 placeholder="Type search word"
+                value={query}
+                onChange={event => {
+                  setquery(event.target.value);
+                }}
               />
-              {() => {
-                inpute = document.getElementsByClassName('control').value;
-                ordenar(visibleMovies, setVisibleMovies, inpute);
-              }}
             </div>
           </div>
         </div>
-        <MoviesList movies={visibleMovies} />
+
+        <MoviesList movies={filteredMovies} />
       </div>
       <div className="sidebar">Sidebar goes here</div>
     </div>
