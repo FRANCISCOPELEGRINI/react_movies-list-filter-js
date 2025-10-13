@@ -5,19 +5,11 @@ import moviesFromServer from './api/movies.json';
 
 export const App = () => {
   const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
-  const [searchQuery, setSearchQuery] = useState('');
+  let inpute = '';
 
-  function ordenar(query) {
-    setVisibleMovies(
-      moviesFromServer.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase()))
-    );
+  function ordenar(movies, setar, inputa) {
+    setar(movies.filter(r => r.title.includes(inputa)));
   }
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-    ordenar(value);
-  };
 
   return (
     <div className="page">
@@ -33,9 +25,11 @@ export const App = () => {
                 id="search-query"
                 className="input"
                 placeholder="Type search word"
-                value={searchQuery}
-                onChange={handleChange}
               />
+              {() => {
+                inpute = document.getElementsByClassName('control').value;
+                ordenar(visibleMovies, setVisibleMovies, inpute);
+              }}
             </div>
           </div>
         </div>
