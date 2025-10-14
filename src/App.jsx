@@ -4,11 +4,18 @@ import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
 export const App = () => {
-  const visibleMovies = moviesFromServer;
-  const [query, setquery] = useState('');
+  const [query, setQuery] = useState('');
 
-  const filteredMovies = visibleMovies.filter(r =>
-    r.title.toLowerCase().includes(query.toLowerCase()),);
+  const normalizedQuery = query.trim().toLowerCase();
+
+  const visibleMovies = moviesFromServer.filter(movie => {
+    const title = (movie.title || '').toLowerCase();
+    const description = (movie.description || '').toLowerCase();
+
+    return (
+      title.includes(normalizedQuery) || description.includes(normalizedQuery)
+    );
+  });
 
   return (
     <div className="page">
@@ -26,14 +33,14 @@ export const App = () => {
                 placeholder="Type search word"
                 value={query}
                 onChange={event => {
-                  setquery(event.target.value);
+                  setQuery(event.target.value);
                 }}
               />
             </div>
           </div>
         </div>
 
-        <MoviesList movies={filteredMovies} />
+        <MoviesList movies={visibleMovies} />
       </div>
       <div className="sidebar">Sidebar goes here</div>
     </div>
