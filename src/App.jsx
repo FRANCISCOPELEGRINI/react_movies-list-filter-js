@@ -8,8 +8,7 @@ export const App = () => {
   const [query, setquery] = useState('');
 
   const filteredMovies = visibleMovies.filter(r =>
-    r.title.toLowerCase().includes(query.toLowerCase()),
-  );
+    r.title.toLowerCase().includes(query.toLowerCase()),);
 
   return (
     <div className="page">
